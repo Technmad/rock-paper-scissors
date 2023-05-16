@@ -24,26 +24,37 @@ function playRound(playerSelection, computerSelection) {
     switch (playerSelection1) {
       case "rock":
         computerSelection === "scissors"
-          ? (text = "You Won! Rock beats Scissors")
-          : (text = "You Lose! Paper beats Rock");
+          ? ((text = "You Won! Rock beats Scissors"), playerScore++)
+          : ((text = "You Lose! Paper beats Rock"), computerScore++);
         return text;
 
       case "scissors":
         computerSelection = "paper"
-          ? (text = "You Won! Scissors beats Paper")
-          : (text = "You Lose! Rock beats Scissors");
+          ? ((text = "You Won! Scissors beats Paper"), playerScore++)
+          : ((text = "You Lose! Rock beats Scissors"), computerScore++);
         return text;
 
       case "paper":
         computerSelection = "rock"
-          ? (text = "You Won! Paper beats Rock")
-          : (text = "You Lose! Scissors beats Paper");
+          ? ((text = "You Won! Paper beats Rock"), playerScore++)
+          : ((text = "You Lose! Scissors beats Paper"), computerScore++);
         return text;
     }
   }
 }
 
-const playerSelection = "rock";
-const computerSelection = getComputerChoice();
+function playGame() {
+  while (true) {
+    let playerSelection = prompt('please enter your choice", rock');
+    let computerSelection = getComputerChoice();
+    console.log(playRound(playerSelection, computerSelection));
+    if (playerScore == 5 || computerScore == 5) {
+      return `Game Over! You ${playerScore > computerScore ? "Won" : "Lose!"}`;
+    }
+  }
+}
 
-console.log(playRound(playerSelection, computerSelection));
+// initial condition
+let playerScore = 0;
+let computerScore = 0;
+console.log(playGame());

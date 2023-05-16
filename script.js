@@ -45,11 +45,12 @@ function playRound(playerSelection, computerSelection) {
 
 function playGame() {
   while (true) {
-    let playerSelection = prompt('please enter your choice", rock');
-    let computerSelection = getComputerChoice();
-    console.log(playRound(playerSelection, computerSelection));
     if (playerScore == 5 || computerScore == 5) {
       return `Game Over! You ${playerScore > computerScore ? "Won" : "Lose!"}`;
+    } else {
+      let playerSelection = prompt('please enter your choice", rock');
+      let computerSelection = getComputerChoice();
+      console.log(playRound(playerSelection, computerSelection));
     }
   }
 }

@@ -1,61 +1,98 @@
+// initial condition
+let pointsRequired = document.querySelector('.pointsleft');
+const playerScoreview = document.querySelector('.playercount');
+const computerScoreview = document.querySelector('.compcount');
+const reloadBtn = document.querySelector('.reload');
+const result = document.querySelector('.result');
+const resultDisplay = document.querySelector('.move');
+let playerSelection;
+let computerSelection;
+let playerScore = 0;
+let computerScore = 0;
+
+      
+const btnSelection = document.querySelectorAll('.btn');
+btnSelection.forEach( btnSelection => {
+btnSelection.addEventListener('click', () => {
+  playerSelection = btnSelection.textContent;
+  computerSelection = getComputerChoice();
+  playRound(playerSelection, computerSelection);
+  });
+});
+      
 function getComputerChoice() {
   let random = Math.trunc(Math.random() * 3);
   //console.log(random);
   switch (random) {
     case 0:
-      return "rock";
+      return "Rock";
     case 1:
-      return "paper";
+      return "Paper";
     case 2:
-      return "scissors";
+      return "Scissors";
   }
 }
-
-//console.log(getComputerChoice());
 
 function playRound(playerSelection, computerSelection) {
-  let playerSelection1 = playerSelection.toLowerCase();
-  let text;
+  const result =document.querySelector('.result');
 
-  if (playerSelection1 === computerSelection) {
-    text = `You Tied! ${playerSelection1} = ${computerSelection}`;
-    return text;
-  } else {
-    switch (playerSelection1) {
-      case "rock":
-        computerSelection === "scissors"
-          ? ((text = "You Won! Rock beats Scissors"), playerScore++)
-          : ((text = "You Lose! Paper beats Rock"), computerScore++);
-        return text;
-
-      case "scissors":
-        computerSelection = "paper"
-          ? ((text = "You Won! Scissors beats Paper"), playerScore++)
-          : ((text = "You Lose! Rock beats Scissors"), computerScore++);
-        return text;
-
-      case "paper":
-        computerSelection = "rock"
-          ? ((text = "You Won! Paper beats Rock"), playerScore++)
-          : ((text = "You Lose! Scissors beats Paper"), computerScore++);
-        return text;
+  if (playerSelection === computerSelection) {
+        result.textContent = `You Tied!` ;
+      } else {
+        switch (playerSelection) {
+          case "Rock":
+          computerSelection === "Scissors"
+           ? ((text = "You Won! Rock beats Scissors"), playerScore++)
+           : ((text = "You Lose! Paper beats Rock"), computerScore++);
+           result.textContent = text;
+           break;
+              
+          case "Scissors":
+          computerSelection = "Paper" 
+           ? ((text = "You Won! Scissors beats Paper"), playerScore++)
+           : ((text = "You Lose! Rock beats Scissors"), computerScore++);
+           result.textContent = text;
+           break;
+          case "Paper":
+          computerSelection = "Rock"
+           ? ((text = "You Won! Paper beats Rock"), playerScore++)
+           : ((text = "You Lose! Scissors beats Paper"), computerScore++);
+           result.textContent = text;
+           break;
+         }
     }
+
+  computerScoreview.textContent = computerScore;
+  playerScoreview.textContent = playerScore; 
+  pointsRequired.textContent = `Points needed to win : ${5-playerScore}`;
+
+  if(playerScore == 5 || computerScore == 5){
+      gameEnd();
   }
 }
+            
+function gameEnd () {
 
-function playGame() {
-  while (true) {
-    if (playerScore == 5 || computerScore == 5) {
-      return `Game Over! You ${playerScore > computerScore ? "Won" : "Lose!"}`;
-    } else {
-      let playerSelection = prompt('please enter your choice", rock');
-      let computerSelection = getComputerChoice();
-      console.log(playRound(playerSelection, computerSelection));
-    }
+  btnSelection.forEach( btnSelection => {
+    btnSelection.style.display ='none';
+  });
+  
+  resultDisplay.textContent = 'Game Over!'
+  pointsRequired.style.display = 'none';
+  if(playerScore > computerScore){
+    result.style.fontSize = '2rem';
+    result.innerText = 'You Won The Game'
+    result.style.color = '#1bf5af';
   }
-}
+  else{
+    result.style.fontSize = '2rem';
+    result.innerText = 'You Lost The Game';
+    result.style.color = '#eb2632';
+  }
 
-// initial condition
-let playerScore = 0;
-let computerScore = 0;
-console.log(playGame());
+  reloadBtn.innerText = 'Restart';
+  reloadBtn.style.display = 'flex'
+  reloadBtn.addEventListener('click',() => {
+      window.location.reload();
+  })
+}
